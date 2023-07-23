@@ -1,5 +1,6 @@
 package com.gmail.udonnikomi.notify.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -34,6 +35,15 @@ public class Item {
             this.name = name;
             this.icon = icon;
             this.status = status;
+        }
+    }
+
+    public enum ItemKey {
+        ID, NAME, ICON, STATUS;
+        @NonNull
+        @Override
+        public String toString() {
+            return "ItemKey_" + this.name();
         }
     }
 }

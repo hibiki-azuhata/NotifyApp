@@ -10,6 +10,7 @@ import androidx.room.Update;
 import com.gmail.udonnikomi.notify.entities.Item;
 
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
 
 @Dao
 public interface ItemDao {
@@ -23,11 +24,11 @@ public interface ItemDao {
     Completable update(Item item);
 
     @Query("SELECT * FROM items")
-    Item[] findAll();
+    Flowable<Item[]> findAll();
 
     @Query("SELECT * FROM items WHERE status = 0")
-    Item[] findAllByStatus();
+    Flowable<Item[]> findAllByStatus();
 
     @Query("UPDATE items SET status = :status WHERE id = :id")
-    void updateStatus(int id, boolean status);
+    Completable updateStatus(int id, boolean status);
 }

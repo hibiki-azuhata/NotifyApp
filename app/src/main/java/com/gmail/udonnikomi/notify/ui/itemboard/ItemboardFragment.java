@@ -16,10 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gmail.udonnikomi.notify.R;
 import com.gmail.udonnikomi.notify.databinding.FragmentItemboardBinding;
 import com.gmail.udonnikomi.notify.entities.Item;
+import com.gmail.udonnikomi.notify.services.Database;
+import com.gmail.udonnikomi.notify.services.dao.ItemDao;
 import com.gmail.udonnikomi.notify.ui.itemboard.dialog.ItemboardDialogFragment;
 import com.gmail.udonnikomi.notify.ui.notifications.NotificationDataAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ItemboardFragment extends Fragment {
@@ -37,27 +40,40 @@ public class ItemboardFragment extends Fragment {
         RecyclerView rv = (RecyclerView) root.findViewById(R.id.itemboard_recycler);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        List<Item.ItemData> testData = new ArrayList<>();
-        testData.add(new Item.ItemData(
-                1,
-                "testtest",
+        List<Item.ItemData> data = new ArrayList<>();
+        ItemDao idao = Database.getInstance(getContext()).itemDao();
+        data.add(new Item.ItemData(
+                -1,
+                "分類を追加する",
                 R.drawable.ic_launcher_foreground,
-                true
+                false
         ));
-        testData.add(new Item.ItemData(
-                2,
-                "testtest2",
-                R.drawable.ic_launcher_background,
-                true
-        ));
-        testData.add(new Item.ItemData(
-                3,
-                "testtest3",
-                android.R.drawable.ic_input_add,
-                true
-        ));
-        rv.setAdapter(new ItemboardAdapter(testData));
-        (new ItemboardDialogFragment()).show(getParentFragmentManager(), "Dialog");
+        final Item[] items = idao.findAll().blockingFirst();
+        Arrays.stream(items).forEach(item ->
+            data.add(new Item.ItemData(
+                item.id,
+                item.name,
+                item.icon,
+                item.status
+            ))
+        );
+        ItemboardAdapter adapter = new ItemboardAdapter(data);
+        adapter.setOnItemClickListener((view, position, text) -> {
+            Bundle args = new Bundle();
+            if(position == 0 || items.length - 1 < position - 1) { // itemsの最大のindexよりもposition-1が大きいとIllegalArgumentException
+                args.putInt(Item.ItemKey.ID.toString(), -1);
+            } else {
+                Item item = items[position - 1]; // create用Item分を引く
+                args.putInt(Item.ItemKey.ID.toString(), item.id);
+                args.putString(Item.ItemKey.NAME.toString(), item.name);
+                args.putInt(Item.ItemKey.ICON.toString(), item.icon);
+                args.putBoolean(Item.ItemKey.STATUS.toString(), item.status);
+            }
+            ItemboardDialogFragment dialog = new ItemboardDialogFragment();
+            dialog.setArguments(args);
+            dialog.show(getParentFragmentManager(), "Dialog");
+        });
+        rv.setAdapter(adapter);
         return root;
     }
 

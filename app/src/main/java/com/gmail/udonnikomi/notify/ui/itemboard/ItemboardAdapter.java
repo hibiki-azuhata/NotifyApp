@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gmail.udonnikomi.notify.R;
 import com.gmail.udonnikomi.notify.entities.Item;
-import com.gmail.udonnikomi.notify.ui.itemboard.dialog.ItemboardDialogFragment;
 
 import java.util.List;
 
 public class ItemboardAdapter extends RecyclerView.Adapter<ItemboardViewHolder> {
 
     private List<Item.ItemData> list;
+    private OnItemClickListener listener;
 
     public ItemboardAdapter(List<Item.ItemData> list) {
         this.list = list;
@@ -32,10 +32,21 @@ public class ItemboardAdapter extends RecyclerView.Adapter<ItemboardViewHolder> 
     public void onBindViewHolder(@NonNull ItemboardViewHolder holder, int position) {
         holder.itemboardTitle.setText(list.get(position).name);
         holder.itemboardImage.setImageResource(list.get(position).icon);
+        holder.itemView.setOnClickListener((view) -> {
+            listener.onItemClickListener(view, position, list.get(position).name);
+        });
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    interface OnItemClickListener {
+        void onItemClickListener(View view, int position, String text);
+    }
+
+    void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }

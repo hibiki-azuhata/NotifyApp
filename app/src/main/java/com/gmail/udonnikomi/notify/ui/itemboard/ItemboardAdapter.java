@@ -1,10 +1,12 @@
 package com.gmail.udonnikomi.notify.ui.itemboard;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gmail.udonnikomi.notify.R;
@@ -14,10 +16,12 @@ import java.util.List;
 
 public class ItemboardAdapter extends RecyclerView.Adapter<ItemboardViewHolder> {
 
+    private Context context;
     private List<Item.ItemData> list;
     private OnItemClickListener listener;
 
-    public ItemboardAdapter(List<Item.ItemData> list) {
+    public ItemboardAdapter(Context context, List<Item.ItemData> list) {
+        this.context = context;
         this.list = list;
     }
 
@@ -32,6 +36,11 @@ public class ItemboardAdapter extends RecyclerView.Adapter<ItemboardViewHolder> 
     public void onBindViewHolder(@NonNull ItemboardViewHolder holder, int position) {
         holder.itemboardTitle.setText(list.get(position).name);
         holder.itemboardImage.setImageResource(list.get(position).icon);
+        if(position == 0) {
+            holder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.itemboard_row_background_addbtn, null));
+        } else {
+            holder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.itemboard_row_background, null));
+        }
         holder.itemView.setOnClickListener((view) -> {
             listener.onItemClickListener(view, position, list.get(position).name);
         });

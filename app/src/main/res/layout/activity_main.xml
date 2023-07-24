@@ -5,19 +5,19 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/verylightblue"
     tools:context=".MovementNotify">
 
     <FrameLayout
+        android:id="@+id/frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/frame_layout"/>
+        android:layout_height="match_parent" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/bottomAppBar"
         android:layout_gravity="bottom"
-        android:background="@color/white"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="50dp">
 

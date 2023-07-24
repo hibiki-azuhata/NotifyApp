@@ -1,5 +1,6 @@
 package com.gmail.udonnikomi.notify.ui.itemboard.dialog;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,11 +15,14 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.gmail.udonnikomi.notify.R;
 import com.gmail.udonnikomi.notify.entities.Item;
 import com.gmail.udonnikomi.notify.services.Database;
 import com.gmail.udonnikomi.notify.services.dao.ItemDao;
+import com.gmail.udonnikomi.notify.ui.itemboard.ItemboardFragment;
 import com.gmail.udonnikomi.notify.ui.itemboard.dialog.ItemboardDialogSpinnerAdapter.ItemData;
 
 import java.util.ArrayList;
@@ -93,7 +97,7 @@ public class ItemboardDialogFragment extends DialogFragment {
                         disposables.add(itemDao.insert(item).subscribeOn(Schedulers.newThread())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(dialogInterface::dismiss, System.out::println));
-                        view.getRootView().requestLayout();
+                        reload();
                     })
                     .setNegativeButton(R.string.btn_cancel, (dialogInterface, id) -> {
                         dialogInterface.dismiss();
@@ -120,17 +124,27 @@ public class ItemboardDialogFragment extends DialogFragment {
                         disposables.add(itemDao.update(item).subscribeOn(Schedulers.newThread())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(dialogInterface::dismiss, System.out::println));
-                        view.getRootView().requestLayout();
+                        reload();
                     })
                     .setNeutralButton(R.string.btn_delete, (dialogInterface, id) -> {
                         disposables.add(itemDao.delete(item).subscribeOn(Schedulers.newThread())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(dialogInterface::dismiss, System.out::println));
+                        reload();
                     })
                     .setNegativeButton(R.string.btn_cancel, (dialogInterface, id) -> {
                         dialogInterface.dismiss();
                     });
         }
         return builder.create();
+    }
+
+    private void reload() {
+        if(getActivity() != null) {
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.frame_layout, new ItemboardFragment());
+            transaction.commit();
+        }
     }
 }

@@ -38,10 +38,9 @@ public class NotificationDataAdapter extends RecyclerView.Adapter<NotificationDa
         holder.itemName.setText(list.get(position).name);
         holder.itemIcon.setImageResource(list.get(position).icon);
         if(list.get(position).status) { // ステータスがtrueへと変更されている場合
-
-            holder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.notification_table_border, null));
+            holder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.notification_row_background_selected, null));
         } else {
-            holder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.notification_table_border_nonselect, null));
+            holder.itemView.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.notification_row_background, null));
         }
         holder.itemView.setLongClickable(true);
         holder.itemView.setOnLongClickListener((view) -> {

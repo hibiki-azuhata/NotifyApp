@@ -1,17 +1,22 @@
 package com.gmail.udonnikomi.notify;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
 
+import com.gmail.udonnikomi.notify.services.receivers.UpdateStatusReceiver;
+import com.gmail.udonnikomi.notify.ui.itemboard.ItemboardFragment;
+import com.gmail.udonnikomi.notify.ui.notifications.NotificationsFragment;
+import com.gmail.udonnikomi.notify.ui.settings.SettingsFragment;
 import com.gmail.udonnikomi.notify.workers.LocationWorker;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.work.Constraints;
-import androidx.work.OutOfQuotaPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -31,15 +36,24 @@ public class MovementNotify extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_notifications, R.id.navigation_itemboard, R.id.navigation_settings)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        replaceFragment(new NotificationsFragment());
+        binding.navView.setSelectedItemId(R.id.navigation_notifications);
+        binding.navView.setBackground(null);
+
+        binding.navView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if(id == R.id.navigation_itemboard) {
+                replaceFragment(new ItemboardFragment());
+            } else if(id == R.id.navigation_settings) {
+                replaceFragment(new SettingsFragment());
+            }
+            return true;
+        });
+
+        binding.fabNotifications.setOnClickListener(view -> {
+            binding.navView.setSelectedItemId(R.id.navigation_notifications);
+            replaceFragment(new NotificationsFragment());
+        });
 
         WorkRequest locationRequest = new PeriodicWorkRequest.Builder(
                 LocationWorker.class,
@@ -48,6 +62,25 @@ public class MovementNotify extends AppCompatActivity {
                 new Constraints.Builder().setRequiresBatteryNotLow(true).build()
         ).build();
         WorkManager.getInstance(getApplicationContext()).enqueue(locationRequest);
+        createNotificationChannel();
+        registerReceiver(new UpdateStatusReceiver(), new IntentFilter("ACTION_COMPLETE"));
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frame_layout, fragment);
+        transaction.commit();
+    }
+
+    private void createNotificationChannel() {
+        CharSequence name = getString(R.string.channel_name);
+        String description = getString(R.string.channel_description);
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel(LocationWorker.CHANNEL_ID, name, importance);
+        channel.setDescription(description);
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 
 }

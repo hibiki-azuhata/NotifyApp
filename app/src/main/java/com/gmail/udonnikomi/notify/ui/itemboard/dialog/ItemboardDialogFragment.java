@@ -34,9 +34,20 @@ public class ItemboardDialogFragment extends DialogFragment {
     private List<Disposable> disposables = new ArrayList<>();
 
     private static ItemData[] data = new ItemData[]{
-            new ItemData("ダッシュボード", R.drawable.ic_dashboard_black_24dp),
-            new ItemData("アイコン", R.drawable.ic_launcher_foreground),
-            new ItemData("家", R.drawable.ic_home_black_24dp)
+            new ItemData("トイレットペーパー", R.drawable.ic_toiletpaper),
+            new ItemData("歯ブラシ", R.drawable.ic_brush),
+            new ItemData("文房具", R.drawable.ic_bunbougu),
+            new ItemData("チューブ", R.drawable.ic_tube),
+            new ItemData("シャンプーボトル1", R.drawable.ic_shampoo),
+            new ItemData("シャンプーボトル2", R.drawable.ic_shampoo2),
+            new ItemData("洗剤1", R.drawable.ic_soap),
+            new ItemData("洗剤2", R.drawable.ic_soap2),
+            new ItemData("洗剤3", R.drawable.ic_spray),
+            new ItemData("調味料1", R.drawable.ic_mayo),
+            new ItemData("調味料2", R.drawable.ic_tomato),
+            new ItemData("調味料3", R.drawable.ic_salt),
+            new ItemData("調味料4", R.drawable.ic_sause),
+            new ItemData("調味料5", R.drawable.ic_soy),
     };
 
     @Override

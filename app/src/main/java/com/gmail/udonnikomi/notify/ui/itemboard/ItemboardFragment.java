@@ -1,5 +1,8 @@
 package com.gmail.udonnikomi.notify.ui.itemboard;
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,12 +10,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gmail.udonnikomi.notify.MovementNotify;
 import com.gmail.udonnikomi.notify.R;
 import com.gmail.udonnikomi.notify.databinding.FragmentItemboardBinding;
 import com.gmail.udonnikomi.notify.entities.Item;
@@ -44,8 +50,8 @@ public class ItemboardFragment extends Fragment {
         ItemDao idao = Database.getInstance(getContext()).itemDao();
         data.add(new Item.ItemData(
                 -1,
-                "分類を追加する",
-                R.drawable.ic_launcher_foreground,
+                "分類を追加",
+                R.drawable.ic_plus,
                 false
         ));
         final Item[] items = idao.findAll().blockingFirst();

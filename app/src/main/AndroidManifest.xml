@@ -35,6 +35,13 @@
                 <action android:name="ACTION_COMPLETE"/>
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".services.receivers.RemoveNotificationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="ACTION_COMPLETE"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

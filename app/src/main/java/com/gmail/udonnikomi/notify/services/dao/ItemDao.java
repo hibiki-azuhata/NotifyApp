@@ -26,9 +26,12 @@ public interface ItemDao {
     @Query("SELECT * FROM items")
     Flowable<Item[]> findAll();
 
-    @Query("SELECT * FROM items WHERE status = 0")
+    @Query("SELECT * FROM items WHERE status = 1")
     Flowable<Item[]> findAllByStatus();
 
     @Query("UPDATE items SET status = :status WHERE id = :id")
     Completable updateStatus(int id, boolean status);
+
+    @Query("UPDATE items SET status = :status")
+    Completable updateStatusAll(boolean status);
 }

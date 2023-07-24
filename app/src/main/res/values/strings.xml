@@ -9,8 +9,9 @@
     <string name="btn_delete">削除</string>
     <string name="channel_name">MovementNotificationChannel</string>
     <string name="channel_description">This channel is used to notify memo of shopping by user movement.</string>
-    <string name="notify_snooze">再度通知する</string>
-    <string name="notify_complete">購入済みにする</string>
+    <string name="notify_snooze">再度通知</string>
+    <string name="notify_start">アプリを起動</string>
+    <string name="notify_complete">すべて購入済み</string>
     <string name="preference_category_notify">通知設定</string>
     <string name="preference_notify_range">移動半径(/km)</string>
 </resources>

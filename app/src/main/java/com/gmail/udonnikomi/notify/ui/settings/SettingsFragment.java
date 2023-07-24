@@ -1,24 +1,19 @@
 package com.gmail.udonnikomi.notify.ui.settings;
 
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.gmail.udonnikomi.notify.R;
-import com.gmail.udonnikomi.notify.databinding.FragmentSettingsBinding;
 import com.gmail.udonnikomi.notify.services.Preference;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -41,6 +36,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             if(actionBar != null) {
                 actionBar.setTitle(R.string.title_settings);
                 actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#A0CCC6")));
+            }
+            if(getContext() != null) {
+                ImageViewCompat.setImageTintList(getActivity().findViewById(R.id.fab_notifications), ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.gray)));
             }
         }
     }

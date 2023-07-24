@@ -7,12 +7,12 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\azule\.android\avd\Resizable_Experimental_API_34.avd" />
+            <value value="C:\Users\azule\.android\avd\Xperia1_API_34.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2023-07-24T05:00:12.283608100Z" />
+    <timeTargetWasSelectedWithDropDown value="2023-07-24T12:10:13.789158Z" />
     <targetsSelectedWithDialog>
       <Target>
         <type value="QUICK_BOOT_TARGET" />

@@ -3,6 +3,7 @@ package com.gmail.udonnikomi.notify.ui.itemboard;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -31,6 +34,7 @@ import com.gmail.udonnikomi.notify.services.Preference;
 import com.gmail.udonnikomi.notify.services.dao.ItemDao;
 import com.gmail.udonnikomi.notify.ui.itemboard.dialog.ItemboardDialogFragment;
 import com.gmail.udonnikomi.notify.ui.notifications.NotificationDataAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +56,9 @@ public class ItemboardFragment extends Fragment {
             if(actionBar != null) {
                 actionBar.setTitle(R.string.title_itemboard);
                 actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#A0CCC6")));
+            }
+            if(getContext() != null) {
+                ImageViewCompat.setImageTintList(getActivity().findViewById(R.id.fab_notifications), ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.gray)));
             }
         }
         RecyclerView rv = (RecyclerView) root.findViewById(R.id.itemboard_recycler);

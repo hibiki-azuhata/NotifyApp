@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/navigation_itemboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_itemboard"
         android:title="@string/title_itemboard" />
 
     <item
@@ -12,7 +12,7 @@
         android:enabled="false" />
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_setting"
         android:title="@string/title_settings" />
 
 </menu>

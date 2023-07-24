@@ -24,11 +24,8 @@ import com.gmail.udonnikomi.notify.services.dao.ItemDao;
 import com.gmail.udonnikomi.notify.services.dao.LocationDataDao;
 import com.google.android.gms.location.LocationServices;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LocationWorker extends Worker {
 

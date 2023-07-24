@@ -1,23 +1,24 @@
 package com.gmail.udonnikomi.notify.ui.notifications;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gmail.udonnikomi.notify.R;
@@ -25,8 +26,6 @@ import com.gmail.udonnikomi.notify.databinding.FragmentNotificationsBinding;
 import com.gmail.udonnikomi.notify.entities.Item;
 import com.gmail.udonnikomi.notify.services.Database;
 import com.gmail.udonnikomi.notify.services.dao.ItemDao;
-import com.gmail.udonnikomi.notify.ui.itemboard.ItemboardFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,6 +54,9 @@ public class NotificationsFragment extends Fragment {
             if(actionBar != null) {
                 actionBar.setTitle(R.string.title_notifications);
                 actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#A0CCC6")));
+            }
+            if(getContext() != null) {
+                ImageViewCompat.setImageTintList(getActivity().findViewById(R.id.fab_notifications), ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.pink)));
             }
         }
 

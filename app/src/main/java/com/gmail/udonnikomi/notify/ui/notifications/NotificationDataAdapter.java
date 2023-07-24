@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gmail.udonnikomi.notify.R;
 import com.gmail.udonnikomi.notify.entities.Item;
-import com.gmail.udonnikomi.notify.ui.itemboard.ItemboardAdapter;
 
 import java.util.List;
 

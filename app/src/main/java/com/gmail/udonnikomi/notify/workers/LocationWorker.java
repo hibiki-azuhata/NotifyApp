@@ -59,7 +59,7 @@ public class LocationWorker extends Worker {
             newLocation.latitude = loc.getLatitude();
             List<LocationData> locData = Arrays.asList(lddao.findAll());
             locData.add(newLocation);
-            if(isMove(500d, locData)) {
+            if(isMove(100d, locData)) {
                 lddao.deleteAll();
 
                 Intent snoozeIntent = new Intent(getApplicationContext(), RemoveNotificationReceiver.class);

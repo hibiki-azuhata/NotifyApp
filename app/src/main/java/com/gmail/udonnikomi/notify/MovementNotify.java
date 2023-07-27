@@ -1,8 +1,12 @@
 package com.gmail.udonnikomi.notify;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,7 +16,10 @@ import com.gmail.udonnikomi.notify.ui.notifications.NotificationsFragment;
 import com.gmail.udonnikomi.notify.ui.settings.SettingsFragment;
 import com.gmail.udonnikomi.notify.workers.LocationWorker;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,15 +30,42 @@ import androidx.work.WorkRequest;
 
 import com.gmail.udonnikomi.notify.databinding.ActivityMainBinding;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MovementNotify extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+    private List<String> permissions = new ArrayList<String>(){
+        {
+            add(Manifest.permission.ACCESS_COARSE_LOCATION);
+            add(Manifest.permission.ACCESS_FINE_LOCATION);
+            add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+            add(Manifest.permission.ACCESS_NOTIFICATION_POLICY);
+        }
+    };
+
+    private final int REQUEST_CODE = 900;
+
+    private void requestPermission(List<String> permissions) {
+        if(permissions.stream().anyMatch(
+                permission -> ContextCompat.checkSelfPermission(getApplicationContext(), permission)
+                        != PackageManager.PERMISSION_GRANTED)) {
+            String[] permissionsArray = new String[permissions.size()];
+            permissions.toArray(permissionsArray);
+            ActivityCompat.requestPermissions(this, permissionsArray, REQUEST_CODE);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions.add(Manifest.permission.POST_NOTIFICATIONS);
+        }
+        requestPermission(permissions);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
